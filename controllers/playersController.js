@@ -61,25 +61,14 @@ const createPlayer = async (req, res) => {
     try {
     const db = database.getDb();
 
-    const { name, country, rank, favoriteGame, age } = req.body || {};
-
-    // Validate required string fields before processing
-    if (
-        typeof name !== 'string' ||
-        typeof country !== 'string' ||
-        typeof rank !== 'string' ||
-        typeof favoriteGame !== 'string'
-    ) {
-        return res.status(400).json({ error: 'Invalid input: name, country, rank, and favoriteGame must be provided as strings.' });
-    }
-
     const newPlayer = {
-        name: name.trim().toUpperCase(),
-        country: country.trim(),
-        rank: rank.trim().toLowerCase(),
-        favoriteGame: favoriteGame.trim().toUpperCase(),
-        age: age
+        name: req.body.name,
+        country: req.body.country,
+        rank: req.body.rank,
+        favoriteGame: req.body.favoriteGame,
+        age: req.body.age
     };
+
 
     const response = await db.collection('players').insertOne(newPlayer);
     if (response.acknowledged) {
