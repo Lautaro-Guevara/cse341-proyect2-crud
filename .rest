@@ -1,0 +1,25 @@
+###
+GET http://localhost:3000/
+
+
+### Get all players
+GET http://localhost:3000/players
+
+### Get a player by ID
+GET http://localhost:3000/players/69c1cd0cc92e471ed9874b2d
+
+### Create a new player
+POST http://localhost:3000/players
+
+### Update a player by ID
+PUT http://localhost:3000/players/{id}
+
+### Delete a player by ID
+DELETE http://localhost:3000/players/{id}
+
+
+### Games Requests
+
+### Get all games
+GET http://localhost:3000/games
+
