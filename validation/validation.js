@@ -19,8 +19,13 @@ validate.createPlayerValidationRules = () => {
 
         body('rank')
         .notEmpty().withMessage('Rank is required')
-        .isIn(['iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster', 'challenger'])
-        .withMessage('Rank must be one of the following: iron, bronze, silver, gold, platinum, diamond, master, grandmaster, challenger'),
+        .custom((value) => {
+            const validRanks = ['iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster', 'challenger'];
+            if (!validRanks.includes(value.toLowerCase())) {
+                throw new Error('Rank must be one of the following: iron, bronze, silver, gold, platinum, diamond, master, grandmaster, challenger');
+            }
+            return true;
+        }),
 
         body('favoriteGame')
         .notEmpty().withMessage('Favorite game is required')
