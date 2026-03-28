@@ -68,6 +68,12 @@ const createPlayer = async (req, res) => {
         age: req.body.age
     }
 
+    //Clean data
+    newPlayer.name = newPlayer.name.trim().toUpperCase();
+    newPlayer.country = newPlayer.country.trim();
+    newPlayer.favoriteGame = newPlayer.favoriteGame.trim().toUpperCase();
+    newPlayer.rank = newPlayer.rank.trim().toLowerCase();
+
     const response = await db.collection('players').insertOne(newPlayer);
     if (response.acknowledged) {
         res.status(201).json(response);
