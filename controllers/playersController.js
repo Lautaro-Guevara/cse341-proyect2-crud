@@ -60,19 +60,26 @@ const createPlayer = async (req, res) => {
     //#swagger.tags = ['Players']
     try {
     const db = database.getDb();
-    const newPlayer = {
-        name: req.body.name,
-        country: req.body.country,
-        rank: req.body.rank,
-        favoriteGame: req.body.favoriteGame,
-        age: req.body.age
+
+    const { name, country, rank, favoriteGame, age } = req.body || {};
+
+    // Validate required string fields before processing
+    if (
+        typeof name !== 'string' ||
+        typeof country !== 'string' ||
+        typeof rank !== 'string' ||
+        typeof favoriteGame !== 'string'
+    ) {
+        return res.status(400).json({ error: 'Invalid input: name, country, rank, and favoriteGame must be provided as strings.' });
     }
 
-    //Clean data
-    newPlayer.name = newPlayer.name.trim().toUpperCase();
-    newPlayer.country = newPlayer.country.trim();
-    newPlayer.favoriteGame = newPlayer.favoriteGame.trim().toUpperCase();
-    newPlayer.rank = newPlayer.rank.trim().toLowerCase();
+    const newPlayer = {
+        name: name.trim().toUpperCase(),
+        country: country.trim(),
+        rank: rank.trim().toLowerCase(),
+        favoriteGame: favoriteGame.trim().toUpperCase(),
+        age: age
+    };
 
     const response = await db.collection('players').insertOne(newPlayer);
     if (response.acknowledged) {

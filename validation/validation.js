@@ -19,8 +19,8 @@ validate.createPlayerValidationRules = () => {
 
         body('rank')
         .notEmpty().withMessage('Rank is required')
-        .isIn(['iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster'])
-        .withMessage('Rank must be one of the following: iron, bronze, silver, gold, platinum, diamond, master, grandmaster'),
+        .isIn(['iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster', 'challenger'])
+        .withMessage('Rank must be one of the following: iron, bronze, silver, gold, platinum, diamond, master, grandmaster, challenger'),
 
         body('favoriteGame')
         .notEmpty().withMessage('Favorite game is required')
