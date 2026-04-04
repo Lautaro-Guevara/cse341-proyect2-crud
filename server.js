@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors')
 const routes = require('./routes/indexRoutes');
@@ -22,17 +23,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 
+const sessionMiddleware = session({
+    secret: process.env.SESSION_SECRET || 'secret',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,
+        collectionName: 'sessions'
+    })
+});
+
 //*********************
 // Middleware
 //*********************
 
 app
     .use(bodyParser.json())
-    .use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-    }))
+    .use(sessionMiddleware)
     .use(passport.initialize())
     .use(passport.session())
     .use((req, res, next) => {
