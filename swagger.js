@@ -8,8 +8,8 @@ const doc = {
         title: 'Games and Players API',
         description: 'API for managing games and players'
     },
-    host: 'localhost:3000',
-    schemes: ['http', 'https']
+    host: process.env.HOST ? `${process.env.HOST}:${process.env.PORT || 3000}` : 'localhost:3000',
+    schemes: [process.env.NODE_ENV === 'production' ? 'https' : 'http']
 };
 
 const outputFile = './swagger.json';
