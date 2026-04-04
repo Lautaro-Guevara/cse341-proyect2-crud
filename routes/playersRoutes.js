@@ -6,6 +6,7 @@ const router = express.Router();
 const controller = require('../controllers/playersController');
 const validation = require('../validation/validation');
 const errorHandler = require('../utilities/utilities')
+const { isAuthenticated } = require('../utilities/middleware');
 
 //*********************
 // Routes
@@ -23,6 +24,7 @@ router.get("/:id", errorHandler.handleErrors(controller.getPlayerById));
 // Create a new player
 router.post(
     "/",
+    isAuthenticated,
     validation.createPlayerValidationRules(),
     validation.checkCreatePlayerValidation,
     errorHandler.handleErrors(controller.createPlayer)
@@ -31,12 +33,13 @@ router.post(
 // Update a player by ID
 router.put(
     "/:id",
+    isAuthenticated,
     validation.createPlayerValidationRules(),
     validation.checkCreatePlayerValidation,
     errorHandler.handleErrors(controller.updatePlayer)
 );
 
 // Delete a player by ID
-router.delete("/:id", errorHandler.handleErrors(controller.deletePlayer));
+router.delete("/:id", isAuthenticated, errorHandler.handleErrors(controller.deletePlayer));
 
 module.exports = router;

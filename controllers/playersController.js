@@ -9,7 +9,7 @@ const { ObjectId } = require('mongodb');
 //*************************
 
 // Get all players
-const getAllPlayers = async (req, res) => {
+const getAllPlayers = async (req, res, next) => {
     //#swagger.tags = ['Players']
     try {
     const result = await database.getDb().collection('players').find();
@@ -21,7 +21,7 @@ const getAllPlayers = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch players' });
     });
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred while fetching players' });
+        next(error);
     }
 };
 
@@ -49,6 +49,7 @@ const getPlayerById = async (req, res) => {
     }).catch((err) => {
         res.status(500).json({ error: 'Failed to fetch player' });
     });
+
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while fetching the player' });
     }
